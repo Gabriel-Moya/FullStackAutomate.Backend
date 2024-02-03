@@ -28,7 +28,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -40,5 +39,8 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Verify pushed image
+      env:
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
         aws ecr describe-images --repository-name $ECR_REPOSITORY --image-ids imageTag=latest --region $AWS_REGION

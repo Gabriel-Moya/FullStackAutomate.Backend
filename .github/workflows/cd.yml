@@ -57,7 +57,7 @@ jobs:
         terraform_wrapper: false
 
     - name: Init terraform
-      working-directory: /tmp/ads-ci-tools/terraform/tf-backend
+      working-directory: ./terraform
       env:
         STAGE: ${{ env.STAGE }}
       run: |

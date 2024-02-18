@@ -1,6 +1,6 @@
 [
   {
-    "name": "FullStackAutomate Backend",
+    "name": "FullStackAutomateBackend",
     "image": "${app_image}",
     "cpu": ${fargate_cpu},
     "memory": ${fargate_memory},

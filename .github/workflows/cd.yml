@@ -70,6 +70,10 @@ jobs:
 
     - name: Plan terraform
       id: terraform-plan
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.STAGE }}
       working-directory: ./terraform
       run: terraform plan -no-color -var "app_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 

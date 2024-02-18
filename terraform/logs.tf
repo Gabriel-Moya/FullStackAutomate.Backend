@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "this" {
-  name              = "/ecs/terraform"
+  name              = "/ecs/fullstack-automate-backend"
   retention_in_days = 14
 
   tags = {

@@ -102,6 +102,10 @@ jobs:
 
     - name: Apply terraform
       id: terraform-apply
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ env.STAGE }}
       shell: bash
       working-directory: ./terraform
-      run: terraform apply -auto-approve -no-color
+      run: terraform apply -auto-approve -no-color -var "app_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

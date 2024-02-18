@@ -1,32 +1,3 @@
-resource "aws_security_group" "web" {
-  name        = "Web"
-  description = "Allow public inbound traffic"
-  vpc_id      = aws_vpc.this.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge(local.common_tags, { Name = "Web server" })
-}
-
 resource "aws_security_group" "db" {}
 
 resource "aws_security_group" "alb" {
@@ -35,8 +6,8 @@ resource "aws_security_group" "alb" {
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = var.app_port
+    to_port     = var.app_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -52,21 +23,14 @@ resource "aws_security_group" "alb" {
 }
 
 
-resource "aws_security_group" "autoscaling" {
-  name        = "autoscaling"
-  description = "Security group that allows ssh/http and all egress traffic"
+resource "aws_security_group" "ecs_tasks" {
+  name        = "ECS-Tasks-SG"
+  description = "Allow inbound access from the ALB only"
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port       = 80
-    to_port         = 80
+    from_port       = var.app_port
+    to_port         = var.app_port
     protocol        = "tcp"
     security_groups = [aws_security_group.alb.id]
   }

@@ -10,11 +10,12 @@ resource "aws_cloudwatch_metric_alarm" "up" {
   threshold           = 80
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.this.name
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.scaleup.arn]
+  alarm_actions   = [aws_appautoscaling_policy.up.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "down" {
@@ -29,11 +30,12 @@ resource "aws_cloudwatch_metric_alarm" "down" {
   threshold           = 72
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.this.name
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.scaledown.arn]
+  alarm_actions   = [aws_appautoscaling_policy.down.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "up_mem" {
@@ -48,11 +50,12 @@ resource "aws_cloudwatch_metric_alarm" "up_mem" {
   threshold           = 80
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.this.name
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.scaleup.arn]
+  alarm_actions   = [aws_appautoscaling_policy.up.arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "down_mem" {
@@ -67,9 +70,10 @@ resource "aws_cloudwatch_metric_alarm" "down_mem" {
   threshold           = 72
 
   dimensions = {
-    "AutoScalingGroupName" = aws_autoscaling_group.this.name
+    ClusterName = aws_ecs_cluster.this.name
+    ServiceName = aws_ecs_service.this.name
   }
 
   actions_enabled = true
-  alarm_actions   = [aws_autoscaling_policy.scaledown.arn]
+  alarm_actions   = [aws_appautoscaling_policy.down.arn]
 }

@@ -10,11 +10,6 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "instance_key_pair_name" {
-  description = "value of the key name"
-  type        = string
-}
-
 variable "ecs_cluster_name" {
   description = "value of the ecs cluster name"
   type        = string

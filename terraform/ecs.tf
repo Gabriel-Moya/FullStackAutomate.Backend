@@ -15,7 +15,7 @@ data "template_file" "application" {
 }
 
 resource "aws_ecs_task_definition" "this" {
-  family                   = "fullstack-automate-backend"
+  family                   = "fullstack-automate-backend-task"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]

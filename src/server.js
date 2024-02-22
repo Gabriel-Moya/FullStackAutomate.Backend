@@ -19,7 +19,7 @@ app.get('/health-check', (_, res) => {
 });
 
 app.get('/', (_, res) => {
-  res.send('Hello V0.0.1');
+  res.send('Hello ECS v0.0.1');
 });
 
 app.listen(port, () => {

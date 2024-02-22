@@ -1,16 +1,17 @@
 resource "aws_lb" "this" {
   name            = "Terraform-ALB"
+  subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.alb.id]
-  subnets         = [aws_subnet.this["pub_a"].id, aws_subnet.this["pub_b"].id]
 
   tags = merge(local.common_tags, { Name = "Terraform ALB" })
 }
 
 resource "aws_lb_target_group" "this" {
-  name     = "ALB-TG"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.this.id
+  name        = "ALB-TG"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.this.id
+  target_type = "ip"
 
   health_check {
     path                = "/"
@@ -23,9 +24,9 @@ resource "aws_lb_target_group" "this" {
   }
 }
 
-resource "aws_lb_listener" "this" {
+resource "aws_alb_listener" "this" {
   load_balancer_arn = aws_lb.this.arn
-  port              = 80
+  port              = var.app_port
   protocol          = "HTTP"
 
   default_action {
